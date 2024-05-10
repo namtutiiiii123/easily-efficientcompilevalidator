@@ -1,9 +1,14 @@
-function groupAnagrams(strs) {
-  const map = new Map();
-  for (const str of strs) {
-    const sortedStr = str.split("").sort().join("");
-    if (!map.has(sortedStr)) map.set(sortedStr, []);
-    map.get(sortedStr).push(str);
-  }
-  return [...map.values()];
+function rob(nums) {
+  if (nums.length === 1) return nums[0];
+  const robRange = (start, end) => {
+    let prevMax = 0;
+    let currMax = 0;
+    for (let i = start; i <= end; i++) {
+      const temp = currMax;
+      currMax = Math.max(currMax, prevMax + nums[i]);
+      prevMax = temp;
+    }
+    return currMax;
+  };
+  return Math.max(robRange(0, nums.length - 2), robRange(1, nums.length - 1));
 }
