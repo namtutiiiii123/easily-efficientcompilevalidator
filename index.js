@@ -1,16 +1,19 @@
-const radixSort = (arr) => {
-  const getDigit = (num, place) =>
-    Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
-  const digitCount = (num) =>
-    num === 0 ? 1 : Math.floor(Math.log10(Math.abs(num))) + 1;
-  const mostDigits = (arr) => Math.max(...arr.map((num) => digitCount(num)));
-  const maxDigits = mostDigits(arr);
-  for (let k = 0; k < maxDigits; k++) {
-    let digitBuckets = Array.from({ length: 10 }, () => []);
-    for (let i = 0; i < arr.length; i++) {
-      digitBuckets[getDigit(arr[i], k)].push(arr[i]);
+function combinationSum2(candidates, target) {
+  candidates.sort((a, b) => a - b);
+  const result = [];
+  backtrack([], 0, 0);
+  return result;
+  function backtrack(combination, start, sum) {
+    if (sum === target) {
+      result.push([...combination]);
+      return;
     }
-    arr = [].concat(...digitBuckets);
+    if (sum > target) return;
+    for (let i = start; i < candidates.length; i++) {
+      if (i > start && candidates[i] === candidates[i - 1]) continue;
+      combination.push(candidates[i]);
+      backtrack(combination, i + 1, sum + candidates[i]);
+      combination.pop();
+    }
   }
-  return arr;
-};
+}
